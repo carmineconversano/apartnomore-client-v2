@@ -1,0 +1,8 @@
+.image-upload > input {
+  display: none;
+}
+
+.image-upload:hover {
+  filter: brightness(0.7);
+  transition: ease 1s;
+}

@@ -1,0 +1,55 @@
+<div class="container h-100">
+  <app-community-info [community]="community"></app-community-info>
+  <div class="d-flex align-items-center justify-content-center pt-5 row">
+    <div class="col-sm-6">
+      <h1>Post</h1>
+    </div>
+    <div class="col-sm-6 d-flex justify-content-end align-items-center">
+      <button (click)="createNotice()" *ngxPermissionsOnly="['USE_WRITE', 'USE_CREATOR']" class="btn btn-primary"
+              type="button">Pubblica
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <ngx-datatable (page)="setPage($event)"
+                     *ngIf="notices"
+                     [columnMode]="ColumnMode.force"
+                     [columns]="[{ name: 'title' }, { name: 'description' }, {name: 'comment'}]"
+                     [count]="totalElements"
+                     [externalPaging]="true"
+                     [footerHeight]="50"
+                     [headerHeight]="50"
+                     [limit]="pageSize"
+                     [rows]="notices"
+                     class="material"
+                     rowHeight="auto">
+        <ngx-datatable-column name="title">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <b>Titolo</b>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [sortable]="false" name="description">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <b>Descrizione</b>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div [innerHTML]="value">
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [sortable]="false" name="comment">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <button (click)="createComment(row.id)" class="btn btn-secondary">Commenta</button>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+

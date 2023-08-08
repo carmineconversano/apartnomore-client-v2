@@ -1,0 +1,91 @@
+<div class="container h-100">
+  <app-community-info [community]="community"></app-community-info>
+  <div class="d-flex align-items-center justify-content-center pt-5 row">
+    <div class="col-sm-6">
+      <h1>MEMBRI</h1>
+    </div>
+    <div class="col-sm-6 d-flex justify-content-end align-items-center mb-2">
+      <button (cbOnSuccess)="invitePerson($event)"
+              [cbContent]="localBaseUrl + '/community/subscribed/view/' + community.accessLink"
+              class="clipboard btn btn-primary"
+              ngxClipboard type="button">Invita
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <ngx-datatable (page)="setPage($event)"
+                     (sort)="onSort($event)"
+                     *ngIf="members"
+                     [columnMode]="ColumnMode.force"
+                     [columns]="[{name: 'avatarUrl'}, { name: 'username' }, { name: 'name' }, { name: 'surname' }, {name: '', sortable: false}]"
+                     [count]="totalElements"
+                     [externalPaging]="true"
+                     [footerHeight]="50"
+                     [headerHeight]="50"
+                     [limit]="pageSize"
+                     [rows]="members"
+                     class="material"
+                     rowHeight="auto">
+        <ngx-datatable-column [cellClass]="'d-flex align-items-center'" name="avatarUrl">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <b>Immagine profilo</b>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <img #img (error)="img.src = imagePathDefault"
+                 [src]="value ? basePathImage + '/' + value : imagePathDefault"
+                 alt="Cover pic for community" class="rounded"
+                 height="50px"
+                 style="object-fit: cover"
+                 width="50px"/>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [cellClass]="'d-flex align-items-center'" name="username">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <b>Username</b>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [cellClass]="'d-flex align-items-center'" name="name">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <b>Nome</b>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [cellClass]="'d-flex align-items-center'" name="surname">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <b>Cognome</b>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [cellClass]="'d-flex align-items-center'" [sortable]="false" name="actions">
+          <ng-template let-column="column" let-row="row" ngx-datatable-header-template>
+            <!--            <b>{{column.name}}</b>-->
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div *ngIf="row.id !== user?.id" class="d-flex justify-content-end">
+              <button (click)="editMember(row)" *ngxPermissionsOnly="['USE_CREATOR', 'USE_MOD']"
+                      class="btn btn-secondary">Permessi
+              </button>
+            </div>
+            <div *ngIf="row.id === user?.id" class="d-flex justify-content-end">
+              <i>(Tu)</i>
+            </div>
+
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+
+
+
+
+

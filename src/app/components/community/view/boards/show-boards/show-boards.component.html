@@ -1,0 +1,48 @@
+<div class="container h-100">
+  <app-community-info [community]="community"></app-community-info>
+  <div class="d-flex align-items-center justify-content-center pt-5 row">
+    <div class="col-sm-6">
+      <h1>Bachece</h1>
+    </div>
+    <div class="col-sm-6 d-flex justify-content-end align-items-center">
+      <button (click)="createBoard()" *ngxPermissionsOnly="['USE_CREATE', 'USE_CREATOR']" class="btn btn-primary"
+              type="button">Creane una
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <ngx-datatable (page)="setPage($event)"
+                     *ngIf="noticesBoards"
+                     [columnMode]="ColumnMode.force"
+                     [columns]="[{ name: 'name' }]"
+                     [count]="totalElements"
+                     [externalPaging]="true"
+                     [footerHeight]="50"
+                     [headerHeight]="50"
+                     [limit]="pageSize"
+                     [rows]="noticesBoards"
+                     class="material"
+                     rowHeight="auto">
+        <ngx-datatable-column name="name" [cellClass]="'d-flex align-items-center'">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <b>Nome</b>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [sortable]="false" name="actions">
+          <ng-template let-column="column" ngx-datatable-header-template>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="d-flex justify-content-end">
+              <button [routerLink]="[row.id, 'notices']" class="btn btn-secondary">Entra</button>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+

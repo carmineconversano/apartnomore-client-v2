@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Crea bacheca</h5>
+  <button
+    (click)="modalRef.close()"
+    aria-label="Close"
+    class="btn-close"
+    type="button"
+  ></button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="createForm()" [formGroup]="createBoardForm" id="createBoardForm" name="createBoardForm">
+    <mdb-form-control>
+      <input
+        [mdbValidate]="true"
+        autocomplete="name"
+        class="form-control mb-4" formControlName="name" id="name" mdbInput
+        placeholder="Nome"
+        required type="text"/>
+      <label class="form-label" for="name" mdbLabel>Nome</label>
+      <mdb-error *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="mb-2">
+        <span *ngIf="name.errors?.['required']">
+          Nome richiesto!
+        </span>
+        <span *ngIf="name.errors?.['maxlength']">
+          Nome troppo lungo! Non superare {{name.errors?.['maxlength'].requiredLength}} caratteri!
+        </span>
+      </mdb-error>
+    </mdb-form-control>
+  </form>
+</div>
+<div class="modal-footer">
+  <button (click)="modalRef.close()" class="btn btn-outline-info" type="button">
+    Annulla
+  </button>
+  <button [disabled]="createBoardForm.invalid" class="btn btn-primary" form="createBoardForm" type="submit">Salva
+  </button>
+</div>

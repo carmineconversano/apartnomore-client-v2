@@ -1,0 +1,70 @@
+<div class="vh-100">
+    <div class="row h-100">
+      <div class="col-md-6 bg-primary">
+        <div class="container p-5 h-100 d-flex flex-column justify-content-center text-white">
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <h1>Torna nelle tue community! Accedi</h1>
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <p>Se non sei ancora regsitratə corri a
+                <button [routerLink]="['/auth/signup']" class="btn btn-light" data-mdb-ripple-color="dark">registrarti!
+                </button>
+              </p>
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+  
+        </div>
+      </div>
+      <div class="col-md-6 snow-ink">
+        <div class="container h-100 d-flex justify-content-center align-items-center">
+          <form (ngSubmit)="login()" [formGroup]="loginForm" class="mb-5 w-50">
+  
+            <p class="h4 mb-4 text-center">Accedi</p>
+  
+            <!-- Username -->
+            <mdb-form-control class="mt-5">
+              <input
+                [mdbValidate]="true"
+                autocomplete="username"
+                class="form-control mb-4" formControlName="username" id="username" mdbInput
+                placeholder="Username"
+                required type="text"/>
+              <label class="form-label" for="username" mdbLabel>Username</label>
+              <mdb-error *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="mb-2">
+                <span *ngIf="username.errors?.['required']">
+                  Username richiesto!
+                </span>
+              </mdb-error>
+            </mdb-form-control>
+  
+            <!-- Password -->
+            <mdb-form-control class="mt-5">
+              <input
+                [mdbValidate]="true"
+                autocomplete="new-password"
+                class="form-control mb-4" formControlName="password" id="password" mdbInput
+                placeholder="Password"
+                required type="password"/>
+              <label class="form-label" for="password" mdbLabel>Password</label>
+              <mdb-error *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="mb-2">
+                <span *ngIf="password.errors?.['required']">
+                  Password richiesta!
+                </span>
+              </mdb-error>
+            </mdb-form-control>
+  
+            <!-- Login button -->
+            <button [disabled]="loginForm.invalid" class="btn btn-info my-4 btn-block mt-5" type="submit">Accedi</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

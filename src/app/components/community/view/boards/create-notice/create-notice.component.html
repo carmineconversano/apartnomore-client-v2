@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Aggiungi post</h5>
+  <button
+    (click)="modalRef.close()"
+    aria-label="Close"
+    class="btn-close"
+    type="button"
+  ></button>
+</div>
+<div class="modal-body">
+  <form (ngSubmit)="createForm()" [formGroup]="createNoticeForm" id="createNoticeForm" name="createNoticeForm">
+    <mdb-form-control>
+      <input
+        [mdbValidate]="true"
+        autocomplete="title"
+        class="form-control mb-4" formControlName="title" id="title" mdbInput
+        placeholder="Titolo"
+        required type="text"/>
+      <label class="form-label" for="title" mdbLabel>Titolo</label>
+      <mdb-error *ngIf="title?.invalid && (title?.dirty || title?.touched)" class="mb-2">
+        <span *ngIf="title.errors?.['required']">
+          Titolo richiesto!
+        </span>
+        <span *ngIf="title.errors?.['maxlength']">
+          Titolo troppo lungo! Non superare {{title.errors?.['maxlength']?.requiredLength}} caratteri!
+        </span>
+      </mdb-error>
+    </mdb-form-control>
+    <quill-editor formControlName="description"></quill-editor>
+  </form>
+</div>
+<div class="modal-footer">
+  <button (click)="modalRef.close()" class="btn btn-outline-info" type="button">
+    Annulla
+  </button>
+  <button [disabled]="createNoticeForm.invalid" class="btn btn-primary" form="createNoticeForm" type="submit">Aggiungi
+  </button>
+</div>

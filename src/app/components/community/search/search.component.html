@@ -1,0 +1,210 @@
+<!--<div class="container h-100">-->
+<!--  <div class="d-flex align-items-center justify-content-center pt-5 row">-->
+<!--    <div class="col-sm-6">-->
+<!--      <h1>Iscriviti, sfoglia le community <i class="fa fa-home"></i></h1>-->
+<!--    </div>-->
+<!--    <div class="col-sm-6 d-flex justify-content-end align-items-center">-->
+<!--      <button (click)="filter()" class="btn btn-primary" type="button">Vedi quelle vicine a te!</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="col-sm-12">-->
+<!--    <div class="col-sm-12 d-flex justify-content-end align-items-center">-->
+<!--      &lt;!&ndash; Search form &ndash;&gt;-->
+<!--      <form class="form-inline md-form form-sm active-purple-2 w-100">-->
+<!--        <div class="input-group mb-3">-->
+<!--          <input (ngModelChange)="search()" [(ngModel)]="query" aria-describedby="basic-search" aria-label="Cerca"-->
+<!--                 class="form-control"-->
+<!--                 name="query" placeholder="Cerca" type="text"/>-->
+<!--          <span class="input-group-text" id="basic-search"><i class="fa fa-search"></i></span>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--    <div class="h-100 d-flex flex-column justify-content-start align-items-center">-->
+<!--      <div *ngIf="communities.length > 0">-->
+<!--        <div-->
+<!--          (scrolled)="onScroll()"-->
+<!--          [infiniteScrollDistance]="distance"-->
+<!--          [infiniteScrollThrottle]="throttle"-->
+<!--          infinite-scroll>-->
+<!--          <div *ngFor="let community of communities" class="mt-3 w-100">-->
+<!--            <div class="card border border-primary">-->
+<!--              <img #img (error)="img.src = imagePathDefault"-->
+<!--                   [src]="(community?.image?.path || community.imagePath) ? basePathImage + '/' + (community?.image?.path || community.imagePath) : imagePathDefault"-->
+<!--                   alt="Cover pic for community" class="w-100 card-img-top"-->
+<!--                   height="150px"-->
+<!--                   style="object-fit: cover"/>-->
+<!--              <div class="card-body">-->
+<!--                <h5 class="card-title">{{community.name}}</h5>-->
+<!--                <p class="card-text">-->
+<!--                  {{community.description}}-->
+<!--                </p>-->
+<!--                <button (click)="insideCommunity(community.accessLink)" class="btn btn-primary" type="button">Entra-->
+<!--                </button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div *ngIf="communities.length === 0">-->
+<!--        <img alt="Empty! No communities here, create one" height="100%" src="assets/empty.svg" width="100%">-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+<!--</div>-->
+<div class="row gx-0 gy-0 vh-100">
+  <div class="col-sm-4 boxCommunities d-flex flex-column align-items-center h-100 p-3 pl-3" style="overflow:auto;">
+    <h2 class="align-self-start">Community vicine</h2>
+
+<!--    <ng-template #rt let-r="result" let-t="term">-->
+<!--      <ngb-highlight [result]="r.label" [term]="t"></ngb-highlight>-->
+<!--    </ng-template>-->
+
+<!--    <fieldset class="form-inline w-100">-->
+<!--      <div class="form-group w-100">-->
+<!--        <input [(ngModel)]="query" [class.is-invalid]="searchFailed" [inputFormatter]="inputFormatter"-->
+<!--               (selectItem)="selectedItem($event)"-->
+<!--               [ngbTypeahead]="search"-->
+<!--               [resultTemplate]="rt" class="form-control w-100" id="typeahead-http"-->
+<!--               placeholder="Cerca indirizzo"-->
+<!--               type="text"/>-->
+<!--        <small *ngIf="searching" class="form-text text-muted">Cercando...</small>-->
+<!--        <div *ngIf="searchFailed" class="invalid-feedback">Sorry, suggestions could not be loaded.</div>-->
+<!--      </div>-->
+<!--    </fieldset>-->
+    <div *ngIf="communities.length > 0" class="mt-1">
+      <div
+        (scrolled)="onScroll()"
+        [infiniteScrollDistance]="distance"
+        [infiniteScrollThrottle]="throttle"
+        class="d-flex flex-column justify-content-center align-items-center h-100"
+        infinite-scroll>
+        <!--             (mouseenter)="openMarker(community)" (mouseleave)="openMarker(community)"-->
+        <div (click)="pinMarker(community)" *ngFor="let community of communities"
+             class="mb-3 w-100 cursor-pointer shadow-4-strong"
+             title="Visualizza nella mappa">
+          <div class="card text-center">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <img #img (error)="img.src = imagePathDefault"
+                   [src]="(community?.image?.path || community.imagePath) ? basePathImage + '/' + (community?.image?.path || community.imagePath) : imagePathDefault"
+                   alt="Cover pic for community" class="w-100 image-fluid"
+                   height="150px" style="object-fit: cover"/>
+              <a>
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+              </a>
+            </div>
+            <div (click)="toggleCollapse($event, basicCollapse, community)" aria-controls="collapseContent"
+                 aria-expanded="false"
+                 class="card-header"
+                 role="button">
+              <div *ngIf="community.collapsed || community.collapsed === undefined"
+                   class="d-flex flex-row text-start justify-content-between">
+                <div>
+                  <h5><b>{{community?.name}}</b></h5>
+                  <p>
+                    {{community?.location}}
+                  </p>
+                </div>
+                <div>
+                  <i class="fa fa-info-circle text-info" title="Informazioni"></i>
+                </div>
+              </div>
+              <div *ngIf="!community.collapsed && community.collapsed !== undefined"
+                   class="d-flex flex-row text-center justify-content-center">
+                <div>
+                  <h5><b>{{community?.name}}</b></h5>
+                  <p>
+                    {{community?.location}}
+                  </p>
+                </div>
+              </div>
+
+            </div>
+            <div #basicCollapse="mdbCollapse" id="collapseContent" mdbCollapse>
+              <div class="card-body">
+                <p class="card-text">
+                  {{community.description}}
+                </p>
+
+                <p>
+                  {{community.lat}}, {{community.lng}}
+                </p>
+
+                <button (click)="insideCommunity(community.accessLink)" class="btn btn-primary rounded" type="button">
+                  Visita
+                </button>
+
+              </div>
+            </div>
+          </div>
+          <!--          <div class="card" [ngClass]="pinnedCommunityId === community.id ? 'border-primary border' : ''">-->
+          <!--            <div class="card-body d-flex flex-row">-->
+          <!--              <div>-->
+          <!--                <h5 class="card-title font-weight-bold mb-2">{{community.name}}</h5>-->
+          <!--                <p class="card-text" *ngIf="community?.created"><i class="far fa-clock pe-2"></i>{{community?.created | date}}</p>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="bg-image hover-overlay ripple rounded-0" data-mdb-ripple-color="light">-->
+          <!--              <img #img (error)="img.src = imagePathDefault"-->
+          <!--                   [src]="(community?.image?.path || community.imagePath) ? basePathImage + '/' + (community?.image?.path || community.imagePath) : imagePathDefault"-->
+          <!--                   alt="Cover pic for community" class="w-100 image-fluid"-->
+          <!--                   style="object-fit: cover"/>-->
+          <!--              <a>-->
+          <!--                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>-->
+          <!--              </a>-->
+          <!--            </div>-->
+          <!--            <div class="card-body">-->
+          <!--              <p class="card-text collapse" id="collapseContent" mdbCollapse #basicCollapse="mdbCollapse">-->
+          <!--                {{community.description}}-->
+          <!--              </p>-->
+          <!--              <div class="d-flex justify-content-between">-->
+          <!--                <a class="btn btn-link link-danger p-md-1 my-1"-->
+          <!--                   (click)="basicCollapse.toggle()"-->
+          <!--                   role="button"-->
+          <!--                   aria-expanded="false"-->
+          <!--                   aria-controls="collapseContent">Più informazioni</a>-->
+          <!--                <div>-->
+          <!--                  <i class="fas fa-sign-in-alt text-muted p-md-1 my-1 me-2" data-mdb-toggle="tooltip"-->
+          <!--                     data-mdb-placement="top" title="Entra" (click)="insideCommunity(community.accessLink)"></i>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--          <div class="card border">-->
+          <!--            <img #img (error)="img.src = imagePathDefault"-->
+          <!--                 [src]="(community?.image?.path || community.imagePath) ? basePathImage + '/' + (community?.image?.path || community.imagePath) : imagePathDefault"-->
+          <!--                 alt="Cover pic for community" class="w-100 card-img-top"-->
+          <!--                 height="150px"-->
+          <!--                 style="object-fit: cover"/>-->
+          <!--            <div class="card-body">-->
+          <!--              <h5 class="card-title">{{community.name}}</h5>-->
+          <!--              <p class="card-text">-->
+          <!--                {{community.description}}-->
+          <!--              </p>-->
+          <!--              <button (click)="insideCommunity(community.accessLink)" class="btn btn-primary" type="button">Entra-->
+          <!--              </button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+        </div>
+      </div>
+    </div>
+    <div *ngIf="communities.length === 0" class="d-flex">
+      <img alt="Empty! No communities here, create one" height="100%" src="assets/empty.svg" width="100%">
+    </div>
+  </div>
+  <div class="col-sm-8 h-100">
+    <div (leafletMapReady)="onMapReady($event)"
+         [(leafletCenter)]="center"
+         [leafletLayers]="layers"
+         [leafletOptions]="options"
+         leaflet
+         style="height: 100%">
+    </div>
+  </div>
+</div>
+
+
+
+
+

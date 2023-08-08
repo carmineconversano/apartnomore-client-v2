@@ -1,0 +1,69 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadowNavigation">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Navbar brand -->
+    <a [routerLink]="['/home']" class="navbar-brand" title="ApartNoMore">
+      <img alt="ApartNoMore logo" src="../../../../assets/APARTNOMORE-small-big.png" width="20px">
+    </a>
+
+    <!-- Toggle button -->
+    <button
+      (click)="basicNavbar.toggle()"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      class="navbar-toggler"
+      type="button">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div
+      #basicNavbar="mdbCollapse"
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+      mdbCollapse
+    >
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li *ngFor="let item of navbarList | navigation" [ngClass]="isCurrent(item.routerLink) ? 'active' : ''"
+            class="nav-item waves-light">
+          <a [routerLink]="[item.routerLink]" class="nav-link">{{item.title}} <span *ngIf="isCurrent(item.routerLink)"
+                                                                                    class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <ul [hidden]="!user" class="navbar-nav">
+        <li class="nav-item waves-light">
+          <img [src]="user?.avatarUrl || '../../../../assets/profile_pic.png'" alt="profile picture" class="rounded"
+               width="20px">
+          <div class="dropdown d-inline-block" mdbDropdown>
+            <a
+              aria-expanded="false"
+              class="nav-link d-inline-block"
+              id="dropdownMenuButton"
+              mdbDropdownToggle
+              type="button"
+            >
+              {{user?.username || 'Profile'}}
+            </a>
+            <ul aria-labelledby="dropdownMenuButton" class="dropdown-menu" mdbDropdownMenu>
+<!--              <li><a [routerLink]="['user/edit']" class="dropdown-item">Profilo</a></li>-->
+              <li (click)="logOut()" class="cursor-pointer"><a class="dropdown-item text-danger">Log out</a></li>
+            </ul>
+          </div>
+
+          <a [routerLink]="['/user/profile']" class="nav-link d-inline-block"></a>
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Main -->
+
+<main>
+  <ng-content></ng-content>
+</main>
+<!-- /.Main -->

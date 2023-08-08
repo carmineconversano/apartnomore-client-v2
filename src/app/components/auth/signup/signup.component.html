@@ -1,0 +1,250 @@
+<div class="vh-100">
+    <div class="row h-100">
+      <div class="col-md-6 snow-ink">
+        <div class="container h-100 d-flex justify-content-center align-items-center">
+          <form (ngSubmit)="signUp()" [formGroup]="signUpForm" class="mb-5 mt-5">
+  
+            <h2 class="h4 mb-5 fw-bold">Registrati</h2>
+  
+            <!--          <div *ngIf="selectedFile" class="img-preview-container">-->
+  
+            <!--            <div class="img-preview{{selectedFile.status === 'fail' ? '-error' : ''}}"-->
+            <!--                 [ngStyle]="{'background-image': 'url('+ (selectedFile.src || 'assets/profile_pic.png') + ')'}">-->
+            <!--            </div>-->
+  
+            <!--            <div *ngIf="selectedFile.pending" class="img-loading-overlay">-->
+            <!--              <div class="img-spinning-circle"></div>-->
+            <!--            </div>-->
+  
+            <!--            <div *ngIf="selectedFile.status === 'ok'" class="alert alert-success"> Image Uploaded Succesfuly!</div>-->
+            <!--            <div *ngIf="selectedFile.status === 'fail'" class="alert alert-danger"> Image Upload Failed!</div>-->
+            <!--          </div>-->
+  
+            <!--          <label class="image-upload-container btn btn-bwm">-->
+            <!--            <span>Select Image</span>-->
+            <!--            <input #imageInput-->
+            <!--                   type="file"-->
+            <!--                   accept="image/*"-->
+            <!--                   (change)="uploadImage(imageInput)">-->
+            <!--          </label>-->
+  
+            <mdb-form-control class="mt-5">
+              <input
+                [mdbValidate]="true"
+                autocomplete="username"
+                class="form-control mb-4" formControlName="username" id="username" mdbInput
+                placeholder="Username"
+                required type="text"/>
+              <label class="form-label" for="username" mdbLabel>Username</label>
+              <mdb-error *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="mb-2">
+                <span *ngIf="username.errors?.['minlength']">
+                  Username troppo corto! Supera {{username.errors?.['minlength']?.requiredLength}} caratteri!
+                </span>
+                <span *ngIf="username.errors?.['required']">
+                  Username richiesto!
+                </span>
+                <span *ngIf="username.errors?.['maxlength']">
+                  Username troppo lungo! Non superare {{username.errors?.['maxlength']?.requiredLength}} caratteri!
+                </span>
+              </mdb-error>
+            </mdb-form-control>
+  
+            <mdb-form-control class="mt-5">
+              <input
+                [mdbValidate]="true"
+                autocomplete="email"
+                class="form-control mb-4" formControlName="email" id="email" mdbInput
+                placeholder="Email"
+                required type="email"/>
+              <label class="form-label" for="username" mdbLabel>Email</label>
+              <mdb-error *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mb-2">
+                <span *ngIf="email.errors?.['email']">
+                  Email non valida!
+                </span>
+                <span *ngIf="!email.errors?.['email']">
+                  <span *ngIf="email.errors?.['maxlength']">
+                    Email troppo lunga! Non superare {{email.errors?.['maxlength']?.requiredLength}} caratteri!
+                  </span>
+                  <span *ngIf="email.errors?.['minlength']">
+                    Email troppo corta! Supera {{email.errors?.['minlength']?.requiredLength}} caratteri!
+                  </span>
+                </span>
+                <span *ngIf="email.errors?.['required']">
+                  Email richiesta!
+                </span>
+              </mdb-error>
+            </mdb-form-control>
+  
+            <mdb-form-control class="mt-5">
+              <input
+                [mdbValidate]="true"
+                aria-describedby="passwordHelpBlock"
+                autocomplete="new-password"
+                class="form-control mb-4" formControlName="password" id="password" mdbInput
+                placeholder="Password"
+                required type="password"/>
+              <label class="form-label" for="password" mdbLabel>Password</label>
+              <mdb-error *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="mb-2">
+                <span *ngIf="password.errors?.['minlength']">
+                  Password troppo corta! Supera {{password.errors?.['minlength']?.requiredLength}} caratteri!
+                </span>
+                <span *ngIf="password.errors?.['required']">
+                  Password richiesta!
+                </span>
+                <span *ngIf="password.errors?.['maxlength']">
+                  Password troppo lunga! Non superare {{password.errors?.['maxlength']?.requiredLength}} caratteri!
+                </span>
+              </mdb-error>
+            </mdb-form-control>
+  
+  
+            <div class="form-row mt-5" formGroupName="profile">
+              <mdb-form-control class="mt-5">
+                <input
+                  [mdbValidate]="true"
+                  autocomplete="name"
+                  class="form-control mb-4" formControlName="name" id="name" mdbInput
+                  placeholder="Nome"
+                  required type="text"/>
+                <label class="form-label" for="name" mdbLabel>Nome</label>
+                <mdb-error *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="mb-2">
+                  <span *ngIf="name.errors?.['required']">
+                  Nome richiesto!
+                </span>
+                  <span *ngIf="name.errors?.['maxlength']">
+                  Nome troppo lungo! Non superare {{name.errors?.['maxlength']?.requiredLength}} caratteri!
+                </span>
+                </mdb-error>
+              </mdb-form-control>
+  
+              <mdb-form-control class="mt-5">
+                <input
+                  [mdbValidate]="true"
+                  autocomplete="surname"
+                  class="form-control mb-4" formControlName="surname" id="surname" mdbInput
+                  placeholder="Nome"
+                  required type="text"/>
+                <label class="form-label" for="surname" mdbLabel>Cognome</label>
+                <mdb-error *ngIf="surname?.invalid && (surname?.dirty || surname?.touched)" class="mb-2">
+                  <span *ngIf="surname.errors?.['required']">
+                  Cognome richiesto!
+                </span>
+                  <span *ngIf="surname.errors?.['maxlength']">
+                  Cognome troppo lungo! Non superare {{name.errors?.['maxlength']?.requiredLength}} caratteri!
+                </span>
+                </mdb-error>
+              </mdb-form-control>
+  
+              <input aria-describedby="phoneHelpBlock" class="form-control" id="phoneNumber"
+                     placeholder="Numero di telefono"
+                     type="text">
+              <small class="form-text text-muted mb-4" id="phoneHelpBlock">
+                Opzionale
+              </small>
+              <input #imageInput (change)="uploadImage(imageInput)" accept="image/*" aria-describedby="avatarUrlHelpBlock"
+                     class="form-control mt-3" id="avatarUrl"
+                     placeholder="Foto profilo" type="file">
+              <small class="form-text text-muted mb-4" id="avatarUrlHelpBlock">
+                Immagine profilo
+              </small>
+            </div>
+  
+            <div class="form-check form-check-inline mt-5 mb-2">
+              <input class="form-check-input"
+                     formControlName="addAddress" id="templateChecked"
+                     mdbCheckbox
+                     name="templateChecked"
+                     style="margin-top: 0.15em; margin-left: -1.5rem;"
+                     type="checkbox"
+              />
+              <label class="form-check-label" for="templateChecked">
+                Dicci dove vivi! Potrebbe essere utile per scoprire nuove comunità vicino a te!
+              </label>
+            </div>
+  
+            <div *ngIf="addAddress.value">
+              <div class="mb-5 mt-2">
+                <p><i>Fornendo una posizione sarà possibile trovare le community vicine alla posizione da te specificata.</i>
+                <br>Cerca il tuo indirizzo, il form verrà completato automaticamente!</p>
+                <div style="height: 300px;"
+                     leaflet
+                     [leafletOptions]="options"
+                     [leafletLayers]="layers"
+                     [(leafletCenter)]="center"
+                     (leafletMapReady)="onMapReady($event)">
+                </div>
+              </div>
+  
+              <div class="form-row" formGroupName="address">
+                <div class="mb-3">
+                  <!-- Country -->
+                  <select class="form-control" formControlName="country" id="country" name="country">
+                    <option *ngFor="let country of countries" [value]="country.code">
+                      {{country.name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <!-- City  -->
+                  <input class="form-control" formControlName="locality" id="locality" placeholder="Città" type="text">
+                </div>
+                <div class="mb-3">
+                  <!-- Provincia -->
+                  <input class="form-control" formControlName="administrativeArea" id="administrativeArea"
+                         placeholder="Provincia" type="text">
+                </div>
+                <div class="mb-3">
+                  <!-- Address 1 -->
+                  <input class="form-control" formControlName="addressLine1" id="addressLine1" placeholder="Indirizzo 1"
+                         type="text">
+                </div>
+                <div class="mb-3">
+                  <!-- Address 2 -->
+                  <input class="form-control" formControlName="addressLine2" id="addressLine2" placeholder="Indirizzo 2"
+                         type="text">
+                </div>
+                <div class="mb-3">
+                  <!-- Postal code -->
+                  <input class="form-control" formControlName="postalCode" id="postalCode" placeholder="Codice postale"
+                         type="text">
+                </div>
+              </div>
+            </div>
+  
+            <!-- Sign up button -->
+            <button [disabled]="signUpForm.invalid" class="btn btn-info my-4 mb-5 btn-block" type="submit">Registrati
+            </button>
+  
+            <hr>
+  
+            <!-- Terms of service -->
+            <p>Cliccando
+              <em>Registrati</em> accetti i nostri
+              <a href="" target="_blank">termini di servizio</a>.</p>
+  
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6 bg-primary">
+        <div class="container p-5 h-100 d-flex flex-column justify-content-center text-white">
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <img class="image-fluid" height="auto" src="assets/conversation.svg" width="100%" alt="people talking">
+              <h1>Scopri il bello della community </h1>
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <p>Registrati e scopri le comunity vicino a te! Esplora, comunica, organizza e
+                condividi la vita di quartiere o condominio in maniera più semplice!</p></div>
+            <div class="col-sm-2"></div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  

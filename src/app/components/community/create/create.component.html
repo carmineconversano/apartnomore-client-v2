@@ -1,0 +1,90 @@
+<form (ngSubmit)="createCommunity()" [formGroup]="createCommunityForm" class="border border-light p-5 container">
+
+  <p class="h4 mb-4 text-center">Crea una community</p>
+
+  <div class="image-upload rounded ripple" title="Cambia immagine di copertina">
+    <label class="cursor-pointer w-100" for="file-input">
+      <img #img (error)="img.src = imagePathDefault"
+           [src]="selectedFile.src ? basePathImage + '/' + selectedFile.src : imagePathDefault"
+           alt="Cover pic for community" class="w-100"
+           height="150px"
+           style="object-fit: cover"/>
+    </label>
+
+    <input #imageInput (change)="uploadImage(imageInput)" accept="image/*" id="file-input" type="file"/>
+  </div>
+
+  <div class="row mb-4 mt-4">
+    <div class="col">
+      <div>
+        <input autocomplete="off" class="form-control col" formControlName="name" id="name"
+               placeholder="Nome community"
+               required type="text">
+      </div>
+    </div>
+    <div class="col">
+      <div>
+        <input autocomplete="off" class="form-control col" formControlName="description" id="description"
+               placeholder="Descrizione community"
+               required type="text">
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4 mt-4">
+    <div class="col">
+      <!-- Default radio -->
+      <div>
+        <input [value]="false"
+               class="form-check-input"
+               formControlName="isPublic"
+               id="flexRadioDefault1"
+               name="isPublic"
+               style="margin-top: 0.15em"
+               type="radio"
+        />
+        <label class="form-check-label ms-2" for="flexRadioDefault1"> Privata </label>
+      </div>
+
+      <div>
+        <input [value]="true"
+               class="form-check-input"
+               formControlName="isPublic"
+               id="flexRadioDefault2"
+               name="isPublic"
+               style="margin-top: 0.15em"
+               type="radio"
+        />
+        <label class="form-check-label ms-2" for="flexRadioDefault2"> Pubblica </label>
+      </div>
+    </div>
+    <div class="col d-flex align-items-center">
+      <div *ngIf="isPublic.value" class="w-100">
+        <input autocomplete="off" class="form-control" formControlName="accessLink" id="accessLink"
+               placeholder="Link community" type="text">
+      </div>
+      <div *ngIf="!isPublic.value" class="fst-italic">
+        Verrà generato un link sicuro per la tua community
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 300px;"
+       leaflet
+       class="mb-5"
+       [leafletOptions]="options"
+       [leafletLayers]="layers"
+       [(leafletCenter)]="center"
+       (leafletMapReady)="onMapReady($event)">
+  </div>
+
+  <div class="row d-flex justify-content-center align-items-center">
+    <div class="col"></div>
+    <div class="col">
+      <button [disabled]="createCommunityForm.invalid" class="btn btn-block btn-primary" type="submit">Crea community
+      </button>
+    </div>
+
+    <div class="col"></div>
+  </div>
+
+</form>

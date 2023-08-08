@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Commenta</h5>
+  <button
+    (click)="modalRef.close()"
+    aria-label="Close"
+    class="btn-close"
+    type="button"
+  ></button>
+</div>
+<div class="modal-body">
+
+  <form (ngSubmit)="createForm()" [formGroup]="createCommentForm" id="createCommentForm" name="createCommentForm">
+    <quill-editor formControlName="text"></quill-editor>
+  </form>
+
+  <div (scrolled)="onScroll()"
+       [infiniteScrollDistance]="distance"
+       [infiniteScrollThrottle]="throttle"
+       [scrollWindow]="false"
+       infinite-scroll
+       style="max-height: 500px; overflow-y: auto">
+    <div *ngFor="let comment of comments" class="mt-3" style="max-width: 95%">
+      <div class="row">
+        <div class="col-sm-6">
+          <span><b>{{comment?.user?.username}}</b></span>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end">
+          <span><i>{{comment?.created}}</i></span>
+        </div>
+      </div>
+      <div class="row">
+        <div [innerHTML]="comment.text" class=""></div>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+
+</div>
+<div class="modal-footer">
+  <button (click)="modalRef.close()" class="btn btn-outline-info" type="button">
+    Annulla
+  </button>
+  <button [disabled]="createCommentForm.invalid" class="btn btn-primary" form="createCommentForm" type="submit">
+    Aggiungi
+  </button>
+</div>
